@@ -1,4 +1,4 @@
-package ml.sadriev.model;
+package ml.sadriev.session.model;
 
 import java.util.UUID;
 import javax.persistence.Column;

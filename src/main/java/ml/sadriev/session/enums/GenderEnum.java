@@ -1,4 +1,4 @@
-package ml.sadriev.enums;
+package ml.sadriev.session.enums;
 
 public enum GenderEnum {
     MALE,

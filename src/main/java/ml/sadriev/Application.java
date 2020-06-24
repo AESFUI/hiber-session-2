@@ -3,8 +3,8 @@ package ml.sadriev;
 import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
-import ml.sadriev.enums.GenderEnum;
-import ml.sadriev.model.Users;
+import ml.sadriev.session.enums.GenderEnum;
+import ml.sadriev.session.model.Users;
 
 public class Application {
 

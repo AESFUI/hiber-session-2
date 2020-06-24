@@ -1,4 +1,4 @@
-package ml.sadriev.enums;
+package ml.sadriev.session.enums;
 
 import lombok.NoArgsConstructor;
 

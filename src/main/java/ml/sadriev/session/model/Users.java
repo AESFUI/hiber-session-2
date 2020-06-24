@@ -1,4 +1,4 @@
-package ml.sadriev.model;
+package ml.sadriev.session.model;
 
 import java.util.UUID;
 import javax.persistence.Column;
@@ -11,8 +11,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import lombok.Data;
-import ml.sadriev.enums.GenderEnum;
-import ml.sadriev.enums.RolesEnum;
+import ml.sadriev.session.enums.GenderEnum;
+import ml.sadriev.session.enums.RolesEnum;
 
 
 @Data
@@ -56,4 +56,7 @@ public class Users {
 
     @Column(updatable = true, nullable = false)
     private boolean isLogged;
+
+    @Column(updatable = true, nullable = true)
+    private boolean deleted;
 }

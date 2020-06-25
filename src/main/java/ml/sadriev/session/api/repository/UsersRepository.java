@@ -1,10 +1,11 @@
 package ml.sadriev.session.api.repository;
 
 import ml.sadriev.session.model.Users;
+import org.hibernate.Session;
 
 public interface UsersRepository {
 
-    Users createUser(Users user);
+    void createUser(Session session, Users user);
 
     boolean removeUser(Users user);
 

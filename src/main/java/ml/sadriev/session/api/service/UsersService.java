@@ -4,7 +4,7 @@ import ml.sadriev.session.model.Users;
 
 public interface UsersService {
 
-    Users createUser(Users user);
+    void createUser(Users user);
 
     boolean removeUser(Users user);
 

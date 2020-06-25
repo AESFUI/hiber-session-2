@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import ml.sadriev.session.api.service.UsersService;
 import ml.sadriev.session.enums.GenderEnum;
 import ml.sadriev.session.model.Users;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,8 +15,24 @@ public class Testing {
     private UsersService usersService;
 
     public void start() {
-        Users user = getNewUser("user2");
+        Users user = getNewUser("user1");
         usersService.createUser(user);
+        user = getNewUser("user2");
+        usersService.createUser(user);
+        user = getNewUser("user3");
+        usersService.createUser(user);
+
+        try {
+            usersService.removeUserByName("user2");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            usersService.loginUser("user1", StringUtils.EMPTY, "password");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

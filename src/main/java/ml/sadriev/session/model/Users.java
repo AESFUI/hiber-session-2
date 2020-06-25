@@ -24,23 +24,23 @@ public class Users {
     @GeneratedValue(generator = "system-uuid")
     private UUID id;
 
-    @Column(length = 32, unique = true, updatable = false)
+    @Column(length = 32, unique = true, updatable = false, nullable = false)
     private String nickName;
 
-    @Column(length = 32, updatable = true)
+    @Column(length = 32, updatable = true, nullable = false)
     private String firstName;
 
     @Column(length = 32, updatable = true)
     private String lastName;
 
-    @Column(unique = true, updatable = true)
+    @Column(unique = true, updatable = true, nullable = false)
     private String email;
 
-    @Column(updatable = true)
+    @Column(updatable = true, nullable = false)
     @Enumerated(EnumType.STRING)
     private GenderEnum gender;
 
-    @Column(length = 16, updatable = true)
+    @Column(length = 16, updatable = true, nullable = false)
     private String password;
 
     @Column(updatable = false, nullable = false, insertable = true)

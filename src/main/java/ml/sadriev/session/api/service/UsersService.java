@@ -1,16 +1,19 @@
 package ml.sadriev.session.api.service;
 
+import java.util.UUID;
 import ml.sadriev.session.model.Users;
 
 public interface UsersService {
 
     void createUser(Users user);
 
-    boolean removeUser(Users user);
+    void removeUserByName(String nickName) throws Exception;
 
-    boolean removeAllUsers();
+    void removeUserById(UUID id);
 
-    Users loginUser(String nickName, String email, String password);
+    void removeAllUsers();
 
-    boolean logoutUser(Users user);
+    void loginUser(String nickName, String email, String password) throws Exception;
+
+    void logoutUser(String nickName);
 }

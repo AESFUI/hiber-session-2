@@ -1,5 +1,6 @@
 package ml.sadriev.session.api.repository;
 
+import java.util.UUID;
 import ml.sadriev.session.model.Users;
 import org.hibernate.Session;
 
@@ -7,11 +8,25 @@ public interface UsersRepository {
 
     void createUser(Session session, Users user);
 
-    boolean removeUser(Users user);
+    void removeUserByName(Session session, String nickName);
 
-    boolean removeAllUsers();
+    void removeUserById(Session session, UUID id);
 
-    Users loginUser(String nickName, String email, String password);
+    void removeAllUsers(Session session);
 
-    boolean logoutUser(Users user);
+    int loginUserByNickName(Session session, String nickName, String password);
+
+    int loginUserByEmail(Session session, String email, String password);
+
+    int logoutUser(Session session, String nickName);
+
+    int isUserLogged(Session session, String nickName);
+
+    Users findUserByName(Session session, String nickName);
+
+    Users findUserByEmail(Session session, String email);
+
+    int findPasswordByName(Session session, String nickName);
+
+    int findPasswordByEmail(Session session, String email);
 }

@@ -1,5 +1,6 @@
 package ml.sadriev.session.service;
 
+import java.util.UUID;
 import javax.annotation.Resource;
 import javax.persistence.EntityManagerFactory;
 import ml.sadriev.session.api.repository.UsersRepository;
@@ -9,6 +10,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Service
 public class UsersServiceImpl implements UsersService {
@@ -28,29 +31,95 @@ public class UsersServiceImpl implements UsersService {
     }
 
     public void createUser(Users user) {
+        if (user != null && !isBlank(user.getNickName()) && !isBlank(user.getFirstName())
+                && !isBlank(user.getEmail()) && !isBlank(user.getPassword()) && user.getGender() != null
+                && user.getCreatingUserDate() != null) {
+
+            Session session = sessionFactory.openSession();
+            session.getTransaction().begin();
+
+            usersRepository.createUser(session, user);
+
+            session.getTransaction().commit();
+            session.close();
+        }
+    }
+
+    public void removeUserByName(String nickName) throws Exception {
+        if (isBlank(nickName)) {
+            throw new Exception("Not filled field");
+        }
+
         Session session = sessionFactory.openSession();
         session.getTransaction().begin();
 
-        session.persist(user);
+        Users user = usersRepository.findUserByName(session, nickName);
 
-        usersRepository.createUser(session, user);
+        if (user != null) {
+            usersRepository.removeUserByName(session, nickName);
+        }
+
         session.getTransaction().commit();
         session.close();
     }
 
-    public boolean removeUser(Users user) {
-        return false;
+    public void removeUserById(UUID id) {
+        Session session = sessionFactory.openSession();
+        session.getTransaction().begin();
+
+        usersRepository.removeUserById(session, id);
+
+        session.getTransaction().commit();
+        session.close();
     }
 
-    public boolean removeAllUsers() {
-        return false;
+    public void removeAllUsers() {
+        Session session = sessionFactory.openSession();
+        session.getTransaction().begin();
+
+        usersRepository.removeAllUsers(session);
+
+        session.getTransaction().commit();
+        session.close();
     }
 
-    public Users loginUser(String nickName, String email, String password) {
-        return null;
+    public void loginUser(String nickName, String email, String password) throws Exception {
+        Session session = sessionFactory.openSession();
+        session.getTransaction().begin();
+
+        int col = 0;
+        if (!isBlank(nickName)) {
+            col = usersRepository.findPasswordByName(session, nickName);
+            if (col == 1) {
+                usersRepository.loginUserByNickName(session, nickName, password);
+            } else {
+                throw new Exception("Password incorrect!");
+            }
+        } else if (!isBlank(email)) {
+            col = usersRepository.findPasswordByEmail(session, nickName);
+            if (col == 1) {
+                usersRepository.loginUserByEmail(session, email, password);
+            } else {
+                throw new Exception("Password incorrect!");
+            }
+        }
+
+        session.getTransaction().commit();
+        session.close();
     }
 
-    public boolean logoutUser(Users user) {
-        return false;
+    public void logoutUser(String nickName) {
+        Session session = sessionFactory.openSession();
+        session.getTransaction().begin();
+
+        if (!isBlank(nickName)) {
+            int col = usersRepository.isUserLogged(session, nickName);
+            if (col == 1) {
+                usersRepository.logoutUser(session, nickName);
+            }
+        }
+
+        session.getTransaction().commit();
+        session.close();
     }
 }

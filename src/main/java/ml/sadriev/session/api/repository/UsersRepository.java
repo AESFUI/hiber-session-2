@@ -26,7 +26,7 @@ public interface UsersRepository {
 
     Users findUserByEmail(Session session, String email);
 
-    int findPasswordByName(Session session, String nickName);
+    String findPasswordByName(Session session, String nickName);
 
-    int findPasswordByEmail(Session session, String email);
+    String findPasswordByEmail(Session session, String email);
 }

@@ -3,16 +3,19 @@ package ml.sadriev.session.api.repository;
 import java.util.List;
 import ml.sadriev.session.model.Groups;
 import ml.sadriev.session.model.Users;
+import org.hibernate.Session;
 
 public interface GroupsRepository {
 
-    Groups createGroup(String name);
+    void createGroup(Session session, Groups group);
 
-    boolean removeGroup(String name);
+    int removeGroup(Session session, String name);
 
-    Groups addUserToGroup(Users user, Groups group);
+    void addUserToGroup(Session session, Users user, Groups group);
 
-    boolean removeUserFromGroup(Users user, Groups group);
+    Groups findGroupByName(Session session, String groupName);
 
-    List<Users> getListUsersOfGroup(Groups group);
+    void removeUserFromGroup(Session session, Users user, Groups group);
+
+    List<Users> getListUsersOfGroup(Session session, Groups group);
 }

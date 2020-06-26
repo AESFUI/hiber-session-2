@@ -77,17 +77,17 @@ public class UsersRepositoryImpl implements UsersRepository {
         return (Users) query.getSingleResult();
     }
 
-    public int findPasswordByName(Session session, String nickName) {
+    public String findPasswordByName(Session session, String nickName) {
         String hql = "FROM Users WHERE nickName = :nickName";
         Query query = session.createQuery(hql);
         query.setParameter("nickName", nickName);
-        return query.executeUpdate();
+        return ((Users) query.getSingleResult()).getPassword();
     }
-    public int findPasswordByEmail(Session session, String email) {
+    public String findPasswordByEmail(Session session, String email) {
         String hql = "FROM Users WHERE email = :email";
         Query query = session.createQuery(hql);
         query.setParameter("email", email);
-        return query.executeUpdate();
+        return ((Users) query.getSingleResult()).getPassword();
     }
     
 }

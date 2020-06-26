@@ -1,12 +1,18 @@
 package ml.sadriev.session.model;
 
+import java.util.List;
 import java.util.UUID;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -49,7 +55,7 @@ public class Users {
 
     @Column(updatable = true)
     @Enumerated(EnumType.STRING)
-    private RolesEnum groups;
+    private RolesEnum role;
 
     @Column(updatable = true, nullable = false, name = "admin_permission")
     private boolean isAdmin;
@@ -59,4 +65,10 @@ public class Users {
 
     @Column(updatable = true, nullable = true)
     private boolean deleted;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "users_groups",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "group_id"))
+    private List<Groups> groups;
 }

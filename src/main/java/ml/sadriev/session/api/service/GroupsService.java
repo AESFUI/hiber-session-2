@@ -6,13 +6,13 @@ import ml.sadriev.session.model.Users;
 
 public interface GroupsService {
 
-    Groups createGroup(String name);
+    void createGroup(String ownerName, Groups group) throws Exception;
 
-    boolean removeGroup(String name);
+    void removeGroup(String ownerName, String name) throws Exception;
 
-    Groups addUserToGroup(Users user, Groups group);
+    void addUserToGroup(Users user, Groups group);
 
-    boolean removeUserFromGroup(Users user, Groups group);
+    Groups findGroupByName(String groupName);
 
     List<Users> getListUsersOfGroup(Groups group);
 }

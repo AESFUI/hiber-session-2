@@ -1,7 +1,6 @@
 package ml.sadriev.session.service;
 
 import java.util.UUID;
-import javax.annotation.Resource;
 import javax.persistence.EntityManagerFactory;
 import ml.sadriev.session.api.repository.UsersRepository;
 import ml.sadriev.session.api.service.UsersService;
@@ -16,10 +15,9 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 @Service
 public class UsersServiceImpl implements UsersService {
 
-    @Resource
     private final UsersRepository usersRepository;
 
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
     @Autowired
     public UsersServiceImpl(EntityManagerFactory factory, UsersRepository usersRepository) {
@@ -87,17 +85,16 @@ public class UsersServiceImpl implements UsersService {
         Session session = sessionFactory.openSession();
         session.getTransaction().begin();
 
-        int col = 0;
         if (!isBlank(nickName)) {
-            col = usersRepository.findPasswordByName(session, nickName);
-            if (col == 1) {
+            String userPass = usersRepository.findPasswordByName(session, nickName); //для наших целей можно)))
+            if (!isBlank(userPass) && userPass.equals(password)) {
                 usersRepository.loginUserByNickName(session, nickName, password);
             } else {
                 throw new Exception("Password incorrect!");
             }
         } else if (!isBlank(email)) {
-            col = usersRepository.findPasswordByEmail(session, nickName);
-            if (col == 1) {
+            String userPass = usersRepository.findPasswordByEmail(session, nickName);
+            if (!isBlank(userPass) && userPass.equals(password)) {
                 usersRepository.loginUserByEmail(session, email, password);
             } else {
                 throw new Exception("Password incorrect!");
@@ -122,4 +119,19 @@ public class UsersServiceImpl implements UsersService {
         session.getTransaction().commit();
         session.close();
     }
+
+
+    public Users findUserByName(String nickName) throws Exception {
+        if (isBlank(nickName)) {
+            throw new Exception("Not filled field");
+        }
+
+        Session session = sessionFactory.openSession();
+        Users user = usersRepository.findUserByName(session, nickName);
+        session.close();
+
+        return user;
+    }
+
+
 }

@@ -16,4 +16,6 @@ public interface UsersService {
     void loginUser(String nickName, String email, String password) throws Exception;
 
     void logoutUser(String nickName);
+
+    Users findUserByName(String nickName) throws Exception;
 }

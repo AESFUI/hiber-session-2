@@ -20,7 +20,6 @@ import lombok.Data;
 import ml.sadriev.session.enums.GenderEnum;
 import ml.sadriev.session.enums.RolesEnum;
 
-
 @Data
 @Entity
 @Table(name = "table_users")

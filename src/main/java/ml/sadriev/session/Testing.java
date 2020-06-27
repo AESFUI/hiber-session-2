@@ -2,6 +2,8 @@ package ml.sadriev.session;
 
 import java.util.Date;
 import javax.annotation.Resource;
+
+import lombok.SneakyThrows;
 import ml.sadriev.session.api.service.GroupsService;
 import ml.sadriev.session.api.service.UsersService;
 import ml.sadriev.session.enums.GenderEnum;
@@ -18,6 +20,7 @@ public class Testing {
     @Resource
     private GroupsService groupsService;
 
+    @SneakyThrows
     public void start() {
         Users user = getNewUser("user1");
         usersService.createUser(user);
@@ -26,28 +29,19 @@ public class Testing {
         user = getNewUser("user3");
         usersService.createUser(user);
 
-        try {
-            usersService.removeUserByName("user2");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        usersService.removeUserByName("user2");
 
-        try {
-            usersService.loginUser("user1", StringUtils.EMPTY, "12345");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        usersService.loginUser("user1", StringUtils.EMPTY, "12345");
 
         usersService.createUser(getNewAdmin("admin"));
 
-        try {
-            groupsService.createGroup("admin", getNewGroup("GroupOne"));
-            groupsService.addUserToGroup(usersService.findUserByName("user1"), groupsService.findGroupByName("GroupOne"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+        groupsService.createGroup("admin", getNewGroup("GroupOne"));
+        groupsService.addUserToGroup(usersService.findUserByName("user1"), groupsService.findGroupByName("GroupOne"));
 
+        groupsService.getListUsersOfGroup(groupsService.findGroupByName("GroupOne"));
+
+        groupsService.removeGroup("admin", "GroupOne");
+    }
 
 
     private void getNewAdmin(Users user) {

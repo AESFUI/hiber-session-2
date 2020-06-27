@@ -66,6 +66,9 @@ public class GroupsServiceImpl implements GroupsService {
         Session session = sessionFactory.openSession();
         session.getTransaction().begin();
 
+        group = session.load(Groups.class, group.getId());
+        user = session.load(Users.class, user.getId());
+
         groupsRepository.addUserToGroup(session, user, group);
 
         session.getTransaction().commit();
